@@ -13,25 +13,26 @@ namespace OPENCVsharptest
         static void Main(string[] args)
         {
             int[,] cornerarray = new int[5000, 2];
+            List<Point> rcorners = new List<Point>();
             int[,] linearray = new int[5000, 4];
             int f = 0;
             int l = 0;
-            /* using (Mat src = new Mat("test.jpg", ImreadModes.GrayScale))
+             using (Mat src = new Mat("testobj.jpg", ImreadModes.GrayScale))
              {
                  using (Window window = new Window("Load & Display", src))
                  {
                      Window.WaitKey();
                  }
              }
-             drawcircle();
-             getcorners(ref cornerarray, ref f);*/
+             //drawcircle();
+             getcorners(ref cornerarray, ref f);
             getlines(ref linearray, ref l);
-            /* for(int z = 0; z<1000; z++)
+             for(int z = 0; z<1000; z++)
              {
                  Console.Write(cornerarray[z,0]);
                  Console.Write(cornerarray[z,1]);
                  Console.WriteLine("");
-             }    */
+             }    
             for (int z = 0; z < 1000; z++)
             {
                 Console.Write(linearray[z, 0]);
@@ -44,6 +45,44 @@ namespace OPENCVsharptest
                 Console.WriteLine("");
             }
             Console.ReadLine();
+            Point x = new Point();
+            if (rcorners.Count == 0)
+            {
+                x.X = cornerarray[0, 0];
+                x.Y = cornerarray[0, 1];
+                rcorners.Add(x);
+            }
+            for (int i = 0; i<5000;i++)
+            {
+                    for(int z = 0; z < (rcorners.Count); z++)
+                    //foreach (Point element in rcorners)
+                    {
+                        if ((cornerarray[i, 0] - rcorners.ElementAt(z).X) < 10 && (cornerarray[i, 0] - rcorners.ElementAt(z).X) > -10)
+                        {
+
+                        }
+                        else
+                        {
+                            if ((cornerarray[i, 1] - rcorners.ElementAt(z).Y) < 10 && (cornerarray[i, 1] - rcorners.ElementAt(z).Y) > -10)
+                            {
+
+                            }
+                            else
+                            {
+                                x.X = cornerarray[i, 0];
+                                x.Y = cornerarray[i, 1];
+                                rcorners.Add(x);
+                            }
+                        }
+                    
+                }
+            }
+            foreach(Point element in rcorners)
+            {
+                Console.WriteLine(element.X + " , " + element.Y);
+            }
+            Console.ReadLine();
+     
         }
 //____________________________________________________________________________________
         static Mat getEdges(Mat image, int threshold)
@@ -229,9 +268,9 @@ namespace OPENCVsharptest
                 l++;
             }
 
-            using (new Window("start", WindowMode.AutoSize, imageIn))
-            using (new Window("equalized", WindowMode.AutoSize, imageIn2))
-            using (new Window("konturen", WindowMode.AutoSize, markers))
+           // using (new Window("start", WindowMode.AutoSize, imageIn))
+           // using (new Window("equalized", WindowMode.AutoSize, imageIn2))
+            //using (new Window("konturen", WindowMode.AutoSize, markers))
             using (new Window("Edges", WindowMode.AutoSize, edges))
             using (new Window("HoughLinesP", WindowMode.AutoSize, imageOutP))
             {
